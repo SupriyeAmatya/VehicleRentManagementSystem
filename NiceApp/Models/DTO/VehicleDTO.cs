@@ -1,18 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NiceApp.Models.DataModel
+namespace NiceApp.Models.DTO
 {
-
-    public partial class Vehicle
+    public class VehicleDTO
     {
-        public Vehicle()
-        {
-            Vehicleimages = new HashSet<VehicleImage>();
-        }
-        [Key]
         public int Id { get; set; }
-      
         public string VehicleName { get; set; }
         public string PlateNo { get; set; }
         public string InitialRentPrice { get; set; }
@@ -23,10 +15,8 @@ namespace NiceApp.Models.DataModel
         public string VehicleKind { get; set; }
         public string WhereStored { get; set; }
         public string Tracker { get; set; }
-       
-
-        [NotMapped]
-        [InverseProperty("Vehicle")]
-        public virtual ICollection<VehicleImage> Vehicleimages { get; set; }
+        [DataType(DataType.Upload)]
+        [Required(ErrorMessage = "Please choose at least one image.")]
+        public IFormFileCollection VehicleImages { get; set; }
     }
 }

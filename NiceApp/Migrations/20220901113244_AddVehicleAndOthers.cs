@@ -58,7 +58,7 @@ namespace NiceApp.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Vehiclenumber = table.Column<int>(type: "int", nullable: false),
+                    Vehiclenumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     VehicleImage1 = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>

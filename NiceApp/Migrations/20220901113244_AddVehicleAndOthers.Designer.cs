@@ -12,7 +12,7 @@ using NiceApp.Data;
 namespace NiceApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220901093248_AddVehicleAndOthers")]
+    [Migration("20220901113244_AddVehicleAndOthers")]
     partial class AddVehicleAndOthers
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -387,8 +387,9 @@ namespace NiceApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Vehiclenumber")
-                        .HasColumnType("int");
+                    b.Property<string>("Vehiclenumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
