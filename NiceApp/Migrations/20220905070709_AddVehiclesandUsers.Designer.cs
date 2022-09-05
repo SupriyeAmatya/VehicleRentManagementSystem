@@ -12,8 +12,8 @@ using NiceApp.Data;
 namespace NiceApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220901113244_AddVehicleAndOthers")]
-    partial class AddVehicleAndOthers
+    [Migration("20220905070709_AddVehiclesandUsers")]
+    partial class AddVehiclesandUsers
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -387,11 +387,12 @@ namespace NiceApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Vehiclenumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Vehiclenumber")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Vehiclenumber");
 
                     b.ToTable("VehicleImages");
                 });
@@ -465,6 +466,22 @@ namespace NiceApp.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("NiceApp.Models.DataModel.VehicleImage", b =>
+                {
+                    b.HasOne("NiceApp.Models.DataModel.Vehicle", "Vehicle")
+                        .WithMany("Vehicleimages")
+                        .HasForeignKey("Vehiclenumber")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Vehicle");
+                });
+
+            modelBuilder.Entity("NiceApp.Models.DataModel.Vehicle", b =>
+                {
+                    b.Navigation("Vehicleimages");
                 });
 #pragma warning restore 612, 618
         }

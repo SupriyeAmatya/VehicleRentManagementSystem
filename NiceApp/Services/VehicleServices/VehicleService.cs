@@ -41,8 +41,8 @@ namespace NiceApp.Services.VehicleServices
             //        Vehicleimages
             //    });
             //}
-            var mData = _dbContext.VehicleImages
-                .Include(d => d.Vehicle).Select(v => v.Vehicle);
+            var mData = _dbContext.Vehicles
+                .Include(d => d.Vehicleimages);
 
 
 
@@ -102,7 +102,7 @@ namespace NiceApp.Services.VehicleServices
         private async Task<List<string>> SaveImages(IFormFileCollection files, Vehicle vehicle)
         {
 
-            string uploadFolder = Path.Combine("uploads", $"{vehicle.VehicleName}_{vehicle.PlateNo}");
+            string uploadFolder = Path.Combine("uploads", $"{vehicle.VehicleName}_{vehicle.Id}");
             string contentPath = Path.Combine(_webHostEnvironment.WebRootPath, uploadFolder);
 
             if (!Directory.Exists(contentPath))
