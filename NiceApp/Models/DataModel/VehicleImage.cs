@@ -8,12 +8,11 @@ namespace NiceApp.Models.DataModel
 
      
         public int Id { get; set; }
-        public string Vehiclenumber { get; set; }
+        public int Vehiclenumber { get; set; }
    
-
+       
         public string VehicleImage1 { get; set; }
 
-        [NotMapped]
         [ForeignKey("Vehiclenumber")]
         [InverseProperty("Vehicleimages")]
         public virtual Vehicle Vehicle { get; set; }

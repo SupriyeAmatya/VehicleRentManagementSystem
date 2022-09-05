@@ -25,7 +25,7 @@ namespace NiceApp.Models.DataModel
         public string Tracker { get; set; }
        
 
-        [NotMapped]
+        
         [InverseProperty("Vehicle")]
         public virtual ICollection<VehicleImage> Vehicleimages { get; set; }
     }

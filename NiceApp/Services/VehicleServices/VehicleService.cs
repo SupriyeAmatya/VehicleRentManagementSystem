@@ -41,52 +41,65 @@ namespace NiceApp.Services.VehicleServices
             //        Vehicleimages
             //    });
             //}
-            var mData = _dbContext.Vehicles
-                .Include(d=>d.Vehicleimages);
-                    
+            var mData = _dbContext.VehicleImages
+                .Include(d => d.Vehicle).Select(v => v.Vehicle);
+
 
 
             return mData;
         }
-        public async Task<string> AddVehicle(VehicleDTO vehicle)
+        public async Task AddVehicleAsync(VehicleDTO vehicle)
         {
 
 
-            using var transaction = _dbContext.Database.BeginTransaction();
 
             try
             {
+
+                using var transaction = _dbContext.Database.BeginTransaction();
                 var Data = new Vehicle()
                 {
+                    Id = vehicle.Id,
+                    VehicleName = vehicle.VehicleName,
+                    PlateNo = vehicle.PlateNo,
+                    InitialRentPrice = vehicle.InitialRentPrice,
+                    RentRatePerHr = vehicle.RentRatePerHr,
+                    Penalty = vehicle.Penalty,
+                    Availability = vehicle.Availability,
+                    VehicleType = vehicle.VehicleType,
+                    VehicleKind = vehicle.VehicleKind,
+                    WhereStored = vehicle.WhereStored,
+                    Tracker = vehicle.Tracker
 
                 };
-                var result = await _dbContext.Vehicles.AddAsync(Data);
-
+                var result = _dbContext.Vehicles.Add(Data);
+                _dbContext.SaveChanges();
                 var filePaths = await SaveImages(vehicle.VehicleImages, Data);
-
+             
                 foreach (string path in filePaths)
                 {
                     _dbContext.VehicleImages.Add(new VehicleImage
                     {
-                        Id = 0,
-                        Vehiclenumber = vehicle.PlateNo,
+                      
+                        Vehiclenumber = vehicle.Id,
                         VehicleImage1 = path
                     });
                 }
+                await _dbContext.SaveChangesAsync();
                 if (result is null)
                 {
-                    return "";
+                 
                 }
-                _dbContext.SaveChanges();
-                return result.ToString();
-                await _dbContext.SaveChangesAsync();
+                transaction.Commit();
+                //return result.ToString();
+                
             }
-            catch
+            catch(Exception ee)
             {
-                return "";
+                
             }
 
-            transaction.Commit();
+     
 
 
         }
@@ -107,7 +120,6 @@ namespace NiceApp.Services.VehicleServices
             {
                 if (file != null)
                 {
-
                     var InputFileName = Path.GetFileName(file.FileName);
 
                     // File paths that will be saved to the database.
@@ -119,10 +131,8 @@ namespace NiceApp.Services.VehicleServices
                     {
                         await file.CopyToAsync(fileStream);
                     }
-
                 }
             }
-
 
             return filePaths;
         }

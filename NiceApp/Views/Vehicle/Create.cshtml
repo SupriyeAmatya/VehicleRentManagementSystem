@@ -1,0 +1,87 @@
+﻿@model NiceApp.Models.DTO.VehicleDTO
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>add</h1>
+
+<h4>VehicleDTO</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form enctype="multipart/form-data" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*                <div class="form-group">
+            <label asp-for="Id" class="control-label"></label>
+            <input asp-for="Id" class="form-control" />
+            <span asp-validation-for="Id" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="VehicleName" class="control-label"></label>
+                <input asp-for="VehicleName" class="form-control" />
+                <span asp-validation-for="VehicleName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlateNo" class="control-label"></label>
+                <input asp-for="PlateNo" class="form-control" />
+                <span asp-validation-for="PlateNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InitialRentPrice" class="control-label"></label>
+                <input asp-for="InitialRentPrice" class="form-control" />
+                <span asp-validation-for="InitialRentPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RentRatePerHr" class="control-label"></label>
+                <input asp-for="RentRatePerHr" class="form-control" />
+                <span asp-validation-for="RentRatePerHr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Penalty" class="control-label"></label>
+                <input asp-for="Penalty" class="form-control" />
+                <span asp-validation-for="Penalty" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Availability" /> @Html.DisplayNameFor(model => model.Availability)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="VehicleType" class="control-label"></label>
+                <input asp-for="VehicleType" class="form-control" />
+                <span asp-validation-for="VehicleType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VehicleKind" class="control-label"></label>
+                <input asp-for="VehicleKind" class="form-control" />
+                <span asp-validation-for="VehicleKind" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WhereStored" class="control-label"></label>
+                <input asp-for="WhereStored" class="form-control" />
+                <span asp-validation-for="WhereStored" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tracker" class="control-label"></label>
+                <input asp-for="Tracker" class="form-control" />
+                <span asp-validation-for="Tracker" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="VehicleImages" class="control-label"></label>
+                <input asp-for="VehicleImages" class="form-control" />
+                <span asp-validation-for="VehicleImages" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
