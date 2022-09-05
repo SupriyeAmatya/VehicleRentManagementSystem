@@ -50,13 +50,9 @@ namespace NiceApp.Services.VehicleServices
         }
         public async Task AddVehicleAsync(VehicleDTO vehicle)
         {
-
-
-
+            using var transaction = _dbContext.Database.BeginTransaction();
             try
             {
-
-                using var transaction = _dbContext.Database.BeginTransaction();
                 var Data = new Vehicle()
                 {
                     Id = vehicle.Id,
@@ -75,31 +71,31 @@ namespace NiceApp.Services.VehicleServices
                 var result = _dbContext.Vehicles.Add(Data);
                 _dbContext.SaveChanges();
                 var filePaths = await SaveImages(vehicle.VehicleImages, Data);
-             
+
                 foreach (string path in filePaths)
                 {
                     _dbContext.VehicleImages.Add(new VehicleImage
                     {
-                      
-                        Vehiclenumber = vehicle.Id,
+
+                        Vehiclenumber = Data.Id,
                         VehicleImage1 = path
                     });
                 }
                 await _dbContext.SaveChangesAsync();
                 if (result is null)
                 {
-                 
+
                 }
                 transaction.Commit();
                 //return result.ToString();
-                
+
             }
-            catch(Exception ee)
+            catch (Exception ee)
             {
-                
+                Console.WriteLine(ee);
             }
 
-     
+
 
 
         }

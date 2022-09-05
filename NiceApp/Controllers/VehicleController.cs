@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NiceApp.Data;
 using NiceApp.Models.DataModel;
 using NiceApp.Models.DTO;
 using NiceApp.Services.VehicleServices;
@@ -9,7 +10,7 @@ namespace NiceApp.Controllers
     {
         private readonly IVehicleService _vehicleService;
 
-        public VehicleController(IVehicleService vehicleService)
+        public VehicleController(IVehicleService vehicleService, AppDbContext db)
         {
             _vehicleService = vehicleService;
         }
@@ -17,6 +18,9 @@ namespace NiceApp.Controllers
         {
 
             var users = _vehicleService.GetVehicle();
+
+            
+
             return View(users);
 
         }
@@ -26,13 +30,13 @@ namespace NiceApp.Controllers
             return View(new VehicleDTO());
         }
         [HttpPost]
-        public IActionResult Create(VehicleDTO person)
+        public async Task<IActionResult> Create(VehicleDTO person)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _vehicleService.AddVehicleAsync(person);
+                    await _vehicleService.AddVehicleAsync(person);
                     return RedirectToAction("Index");
                 }
             }
