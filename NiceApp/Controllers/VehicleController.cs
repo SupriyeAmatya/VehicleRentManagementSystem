@@ -17,11 +17,11 @@ namespace NiceApp.Controllers
         public IActionResult Index()
         {
 
-            var users = _vehicleService.GetVehicle();
+            var mVehicles = _vehicleService.GetVehicle();
 
             
 
-            return View(users);
+            return View(mVehicles);
 
         }
         [HttpGet]

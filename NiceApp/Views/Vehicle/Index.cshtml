@@ -1,4 +1,5 @@
-﻿@model IEnumerable<NiceApp.Models.DataModel.Vehicle>
+﻿@model IEnumerable<NiceApp.Models.DataModel.VehicleImage>
+
 
 @{
     ViewData["Title"] = "Index";
@@ -16,34 +17,34 @@
              @*   @Html.DisplayNameFor(model => model.Id)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VehicleName)
+                @Html.DisplayNameFor(model => model.Vehicle.VehicleName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PlateNo)
+                @Html.DisplayNameFor(model => model.Vehicle.PlateNo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InitialRentPrice)
+                @Html.DisplayNameFor(model => model.Vehicle.InitialRentPrice)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RentRatePerHr)
+                @Html.DisplayNameFor(model => model.Vehicle.RentRatePerHr)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Penalty)
+                @Html.DisplayNameFor(model => model.Vehicle.Penalty)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Availability)
+                @Html.DisplayNameFor(model => model.Vehicle.Availability)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VehicleType)
+                @Html.DisplayNameFor(model => model.Vehicle.VehicleType)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VehicleKind)
+                @Html.DisplayNameFor(model => model.Vehicle.VehicleKind)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.WhereStored)
+                @Html.DisplayNameFor(model => model.Vehicle.WhereStored)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Tracker)
+                @Html.DisplayNameFor(model => model.Vehicle.Tracker)
             </th>
             <th></th>
         </tr>
@@ -54,41 +55,41 @@
             <td>
                @* @Html.DisplayFor(modelItem => item.Id)*@
                    <div class="d-flex align-items-center">
-                        <img src="~/@item.Vehicleimages.FirstOrDefault().VehicleImage1"
+                        <img src="~/@item.VehicleImage1"
                          alt=""
                          style="width: 45px; height: 45px"
                          class="rounded-circle" />
                     </div>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.VehicleName)
+                @Html.DisplayFor(modelItem => item.Vehicle.VehicleName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PlateNo)
+                @Html.DisplayFor(modelItem => item.Vehicle.PlateNo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.InitialRentPrice)
+                @Html.DisplayFor(modelItem => item.Vehicle.InitialRentPrice)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RentRatePerHr)
+                @Html.DisplayFor(modelItem => item.Vehicle.RentRatePerHr)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Penalty)
+                @Html.DisplayFor(modelItem => item.Vehicle.Penalty)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Availability)
+                @Html.DisplayFor(modelItem => item.Vehicle.Availability)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.VehicleType)
+                @Html.DisplayFor(modelItem => item.Vehicle.VehicleType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.VehicleKind)
+                @Html.DisplayFor(modelItem => item.Vehicle.VehicleKind)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.WhereStored)
+                @Html.DisplayFor(modelItem => item.Vehicle.WhereStored)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Tracker)
+                @Html.DisplayFor(modelItem => item.Vehicle.Tracker)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

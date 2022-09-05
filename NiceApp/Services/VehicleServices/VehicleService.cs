@@ -17,34 +17,11 @@ namespace NiceApp.Services.VehicleServices
             _dbContext = dbContext;
             _webHostEnvironment = webHostEnvironment;
         }
-        public IEnumerable<Vehicle> GetVehicle()
+        public IEnumerable<VehicleImage> GetVehicle()
         {
-            //IList<Vehicle> userList = new List<Vehicle>();
-            //var query = from user in _dbContext.Vehicles
-            //            select user;
-            //var users = query.ToList();
-            //foreach (var userData in users)
-            //{
-            //    userList.Add(new Vehicle()
-            //    {
-            //        Id = userData.Id,
-            //        VehicleName = userData.VehicleName,
-            //        PlateNo = userData.PlateNo,
-            //        InitialRentPrice = userData.InitialRentPrice,
-            //        RentRatePerHr = userData.RentRatePerHr,
-            //        Penalty = userData.Penalty,
-            //        Availability = userData.Availability,
-            //        VehicleType
-            //        VehicleKind
-            //        WhereStored
-            //        Tracker
-            //        Vehicleimages
-            //    });
-            //}
+            
             var mData = _dbContext.VehicleImages
-                .Include(d => d.Vehicle).Select(v => v.Vehicle);
-
-
+                .Include(d => d.Vehicle);
 
             return mData;
         }
