@@ -7,5 +7,8 @@ namespace NiceApp.Services.VehicleServices
     {
         IEnumerable<Vehicle> GetVehicle();
        Task AddVehicleAsync(VehicleDTO vehicle);
+        Vehicle CompleteDetails(int? id);
+        void DeleteVehicle(int userId);
+        Vehicle GetVehicleById(int userId);
     }
 }

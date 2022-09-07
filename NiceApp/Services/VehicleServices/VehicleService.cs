@@ -99,6 +99,89 @@ namespace NiceApp.Services.VehicleServices
 
 
         }
+
+
+
+        public Vehicle CompleteDetails(int? id)
+        {
+
+            var allVehicleList = _dbContext.Vehicles
+         .Include(d => d.Vehicleimages)
+         .SingleOrDefault(m => m.Id == id);
+
+            return allVehicleList;
+        }
+        public Vehicle GetVehicleById(int userId)
+        {
+            //var query = from u in _dbContext.Vehicles
+            //            where u.Id == userId
+            //            select u;
+            //var vehicle = query.FirstOrDefault();
+            //var model = new Vehicle()
+            //{
+            //    Id = userId,
+            //    VehicleName = vehicle.VehicleName,
+            //    PlateNo = vehicle.PlateNo,
+            //    InitialRentPrice = vehicle.InitialRentPrice,
+            //    RentRatePerHr = vehicle.RentRatePerHr,
+            //    Penalty = vehicle.Penalty,
+            //    Availability = vehicle.Availability,
+            //    VehicleType = vehicle.VehicleType,
+            //    VehicleKind = vehicle.VehicleKind,
+            //    WhereStored = vehicle.WhereStored,
+            //    Tracker = vehicle.Tracker
+            //};
+            //return model;
+            var allVehicleList = _dbContext.Vehicles
+      .Include(d => d.Vehicleimages)
+      .SingleOrDefault(m => m.Id == userId);
+
+            return allVehicleList;
+        }
+        public void DeleteVehicle(int userId)
+        {
+            Vehicle vehicle = _dbContext.Vehicles
+                              .Include(d => d.Vehicleimages)
+                              .SingleOrDefault(m => m.Id == userId);
+            var vehicleimg = _dbContext.VehicleImages.Where(u => u.Vehiclenumber == userId);
+            DeleteImages(vehicle.VehicleName, userId);
+            _dbContext.Vehicles.Remove(vehicle);
+
+            foreach (var vehicleI in vehicleimg)
+            {
+                _dbContext.VehicleImages.Remove(vehicleI);
+            }
+            _dbContext.SaveChangesAsync();
+        }
+        public void UpdateVehicle(Vehicle vehicle)
+        {
+            Vehicle userData = _dbContext.Vehicles.Where(u => u.Id == vehicle.Id).SingleOrDefault();
+            userData.VehicleName = vehicle.VehicleName;
+            userData.PlateNo = vehicle.PlateNo;
+            userData.InitialRentPrice = vehicle.InitialRentPrice;
+            userData.RentRatePerHr = vehicle.RentRatePerHr;
+            userData.Penalty = vehicle.Penalty;
+            userData.Availability = vehicle.Availability;
+            userData.VehicleType = vehicle.VehicleType;
+            userData.VehicleKind = vehicle.VehicleKind;
+            userData.WhereStored = vehicle.WhereStored;
+            userData.Tracker = vehicle.Tracker;
+            _dbContext.SaveChanges();
+        }
+        private void DeleteImages(string VehicleName, int Id)
+        {
+
+            string uploadFolder = Path.Combine("uploads", $"{VehicleName}_{Id}");
+            string contentPath = Path.Combine(_webHostEnvironment.WebRootPath, uploadFolder);
+            FileInfo fi = new FileInfo(contentPath);
+            if (fi != null)
+            {
+                
+                System.IO.File.Delete(contentPath);
+                fi.Delete();
+            }
+
+        }
         private async Task<List<string>> SaveImages(IFormFileCollection files, Vehicle vehicle)
         {
 
@@ -125,6 +208,7 @@ namespace NiceApp.Services.VehicleServices
                     //Save file to uploads folder  
                     using (Stream fileStream = new FileStream(ServerSavePath, FileMode.Create))
                     {
+
                         await file.CopyToAsync(fileStream);
                     }
                 }

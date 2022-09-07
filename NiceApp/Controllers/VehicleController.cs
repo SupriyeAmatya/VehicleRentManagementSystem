@@ -46,5 +46,38 @@ namespace NiceApp.Controllers
             }
             return View(person);
         }
+        public IActionResult Details(int id)
+        {
+            var model = _vehicleService.CompleteDetails(id);
+            return View(model);
+        }
+        public ActionResult Delete(int id, bool? saveChangesError)
+        {
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewBag.ErrorMessage = "Unable to save changes. Try again, and if the problem persists see your system administrator.";
+            }
+            Vehicle user = _vehicleService.GetVehicleById(id);
+            return View(user);
+        }
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            try
+            {
+                Vehicle user = _vehicleService.GetVehicleById(id);
+                _vehicleService.DeleteVehicle(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                //      return RedirectToAction("Delete",
+                //      new System.Web.Routing.RouteValueDictionary {
+                //{ "id", id },
+                //{ "saveChangesError", true } });
+                return View();
+            }
+
+        }
     }
 }
