@@ -173,14 +173,17 @@ namespace NiceApp.Services.VehicleServices
 
             string uploadFolder = Path.Combine("uploads", $"{VehicleName}_{Id}");
             string contentPath = Path.Combine(_webHostEnvironment.WebRootPath, uploadFolder);
-            FileInfo fi = new FileInfo(contentPath);
-            if (fi != null)
-            {
-                
-                System.IO.File.Delete(contentPath);
-                fi.Delete();
-            }
 
+            if (Directory.Exists(contentPath))
+            {
+                var mFiles = Directory.EnumerateFiles(contentPath);
+
+                foreach (var imageFile in mFiles)
+                {
+                    File.Delete(Path.Combine(contentPath, imageFile));
+                }
+                Directory.Delete(contentPath);
+            }
         }
         private async Task<List<string>> SaveImages(IFormFileCollection files, Vehicle vehicle)
         {
