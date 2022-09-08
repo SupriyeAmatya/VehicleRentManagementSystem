@@ -67,7 +67,7 @@ namespace NiceApp.Controllers
             {
                 Vehicle user = _vehicleService.GetVehicleById(id);
                 _vehicleService.DeleteVehicle(id);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Vehicle");
             }
             catch (Exception ex)
             {
@@ -78,6 +78,30 @@ namespace NiceApp.Controllers
                 return View();
             }
 
+        }
+        public ActionResult Edit(int id)
+        {
+            Vehicle model = _vehicleService.GetVehicleById(id);
+            TempData["Oldname"] = model.VehicleName;
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult Edit(Vehicle Vehicle)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var oldname = TempData["Oldname"];
+                    _vehicleService.UpdateVehicle(Vehicle, oldname);
+                    return RedirectToAction("Index","Vehicle");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+            }
+            return View(Vehicle);
         }
     }
 }

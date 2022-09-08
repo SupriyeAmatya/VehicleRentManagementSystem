@@ -135,7 +135,7 @@ namespace NiceApp.Services.VehicleServices
             var allVehicleList = _dbContext.Vehicles
       .Include(d => d.Vehicleimages)
       .SingleOrDefault(m => m.Id == userId);
-
+            var oldname = allVehicleList.VehicleName;
             return allVehicleList;
         }
         public void DeleteVehicle(int userId)
@@ -153,9 +153,10 @@ namespace NiceApp.Services.VehicleServices
             }
             _dbContext.SaveChangesAsync();
         }
-        public void UpdateVehicle(Vehicle vehicle)
+        public void UpdateVehicle(Vehicle vehicle, object oldname)
         {
             Vehicle userData = _dbContext.Vehicles.Where(u => u.Id == vehicle.Id).SingleOrDefault();
+            object von = oldname;
             userData.VehicleName = vehicle.VehicleName;
             userData.PlateNo = vehicle.PlateNo;
             userData.InitialRentPrice = vehicle.InitialRentPrice;
@@ -166,7 +167,26 @@ namespace NiceApp.Services.VehicleServices
             userData.VehicleKind = vehicle.VehicleKind;
             userData.WhereStored = vehicle.WhereStored;
             userData.Tracker = vehicle.Tracker;
+
+            MoveImages(oldname,vehicle);
             _dbContext.SaveChanges();
+        }
+        private void MoveImages(object von, Vehicle vehicle) {
+            string olduploadFolder = Path.Combine("uploads", $"{von}_{vehicle.Id}");
+            string oldcontentPath = Path.Combine(_webHostEnvironment.WebRootPath, olduploadFolder);
+            string newuploadFolder = Path.Combine("uploads", $"{vehicle.VehicleName}_{vehicle.Id}");
+            string newcontentPath = Path.Combine(_webHostEnvironment.WebRootPath, newuploadFolder);
+            if (Directory.Exists(newcontentPath))
+            {
+                var mFiles = Directory.EnumerateFiles(oldcontentPath);
+                Directory.CreateDirectory(newcontentPath);
+            
+                foreach (var imageFile in mFiles)
+                {
+                    File.Move(Path.Combine(oldcontentPath, imageFile), Path.Combine(newcontentPath, imageFile));
+
+                }
+            }
         }
         private void DeleteImages(string VehicleName, int Id)
         {
@@ -181,8 +201,10 @@ namespace NiceApp.Services.VehicleServices
                 foreach (var imageFile in mFiles)
                 {
                     File.Delete(Path.Combine(contentPath, imageFile));
+                    
                 }
                 Directory.Delete(contentPath);
+                
             }
         }
         private async Task<List<string>> SaveImages(IFormFileCollection files, Vehicle vehicle)
