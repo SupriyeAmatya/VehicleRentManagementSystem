@@ -176,14 +176,15 @@ namespace NiceApp.Services.VehicleServices
             string oldcontentPath = Path.Combine(_webHostEnvironment.WebRootPath, olduploadFolder);
             string newuploadFolder = Path.Combine("uploads", $"{vehicle.VehicleName}_{vehicle.Id}");
             string newcontentPath = Path.Combine(_webHostEnvironment.WebRootPath, newuploadFolder);
-            if (Directory.Exists(newcontentPath))
+            if (!Directory.Exists(newcontentPath))
             {
                 var mFiles = Directory.EnumerateFiles(oldcontentPath);
                 Directory.CreateDirectory(newcontentPath);
             
                 foreach (var imageFile in mFiles)
                 {
-                    File.Move(Path.Combine(oldcontentPath, imageFile), Path.Combine(newcontentPath, imageFile));
+                    var newImageName = Path.GetFileName(imageFile);
+                    File.Copy(imageFile, Path.Combine(newcontentPath, newImageName));
 
                 }
             }
