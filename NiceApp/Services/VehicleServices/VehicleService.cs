@@ -176,7 +176,10 @@ namespace NiceApp.Services.VehicleServices
             string oldcontentPath = Path.Combine(_webHostEnvironment.WebRootPath, olduploadFolder);
             string newuploadFolder = Path.Combine("uploads", $"{vehicle.VehicleName}_{vehicle.Id}");
             string newcontentPath = Path.Combine(_webHostEnvironment.WebRootPath, newuploadFolder);
-            if (Directory.Exists(newcontentPath))
+            if (!Directory.Exists(newcontentPath)) {
+                Directory.CreateDirectory(newcontentPath);
+            }
+                if (Directory.Exists(newcontentPath))
             {
                 var mFiles = Directory.EnumerateFiles(oldcontentPath);
                 Directory.CreateDirectory(newcontentPath);
@@ -230,6 +233,7 @@ namespace NiceApp.Services.VehicleServices
                     filePaths.Add(Path.Combine(uploadFolder, InputFileName));
 
                     var ServerSavePath = Path.Combine(contentPath, InputFileName);
+                    
                     //Save file to uploads folder  
                     using (Stream fileStream = new FileStream(ServerSavePath, FileMode.Create))
                     {
