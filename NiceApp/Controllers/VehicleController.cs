@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using NiceApp.Data;
 using NiceApp.Models.DataModel;
 using NiceApp.Models.DTO;
+using NiceApp.Services.UserhomeService;
 using NiceApp.Services.VehicleServices;
 
 namespace NiceApp.Controllers
@@ -9,10 +11,12 @@ namespace NiceApp.Controllers
     public class VehicleController : Controller
     {
         private readonly IVehicleService _vehicleService;
+        private readonly IUserhomeService _UserhomeService;
 
-        public VehicleController(IVehicleService vehicleService, AppDbContext db)
+        public VehicleController(IVehicleService vehicleService, AppDbContext db, IUserhomeService userhomeService)
         {
             _vehicleService = vehicleService;
+            _UserhomeService = userhomeService;
         }
         public IActionResult Index()
         {
@@ -27,15 +31,18 @@ namespace NiceApp.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.AllVehiclesListStation = new SelectList(_vehicleService.GetAllStation());
             return View(new VehicleDTO());
         }
         [HttpPost]
-        public async Task<IActionResult> Create(VehicleDTO person)
+        public async Task<IActionResult> Create(VehicleDTO person, int station)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+                    ViewBag.AllVehiclesListStation = new SelectList(_vehicleService.GetAllStation());
+                 
                     await _vehicleService.AddVehicleAsync(person);
                     return RedirectToAction("Index");
                 }

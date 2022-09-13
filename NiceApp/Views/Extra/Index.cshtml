@@ -1,0 +1,24 @@
+﻿@model NiceApp.Models.DataModel.Images
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<form asp-action="UploadImage" 
+      asp-controller="Extra" 
+      method="post" 
+      enctype="multipart/form-data">
+    <input type="file" id="file1" 
+           name="file1" 
+           multiple="multiple" />
+    <button type="submit">Upload File(s)</button>
+</form>
+<form asp-action="RetrieveImage" 
+      asp-controller="Extra" 
+      method="post">
+    <button type="submit">Show Latest Image</button>
+</form>
+<h1>@ViewBag.Message</h1>
+<h1>@ViewBag.ImageTitle</h1>
+<img src="@ViewBag.ImageDataUrl" />

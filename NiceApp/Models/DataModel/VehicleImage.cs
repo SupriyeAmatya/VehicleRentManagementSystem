@@ -10,8 +10,8 @@ namespace NiceApp.Models.DataModel
         public int Id { get; set; }
         public int Vehiclenumber { get; set; }
    
-       
-        public string VehicleImage1 { get; set; }
+       public string VehicleImage1 { get; set; }
+        //public byte[] VehicleImage1 { get; set; }
 
         [ForeignKey("Vehiclenumber")]
         [InverseProperty("Vehicleimages")]

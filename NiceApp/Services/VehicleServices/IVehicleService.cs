@@ -11,5 +11,6 @@ namespace NiceApp.Services.VehicleServices
         void DeleteVehicle(int userId);
         Vehicle GetVehicleById(int userId);
         void UpdateVehicle(Vehicle vehicle, object oldname);
+        IEnumerable<string> GetAllStation();
     }
 }

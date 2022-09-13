@@ -18,5 +18,6 @@ namespace NiceApp.Models.DTO
         [DataType(DataType.Upload)]
         [Required(ErrorMessage = "Please choose at least one image.")]
         public IFormFileCollection VehicleImages { get; set; }
+        //public byte[] VehicleImages { get; set; }
     }
 }

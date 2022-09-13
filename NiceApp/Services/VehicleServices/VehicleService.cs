@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using NiceApp.Data;
 using NiceApp.Models.DataModel;
 using NiceApp.Models.DTO;
+using SkiaSharp;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace NiceApp.Services.VehicleServices
 {
@@ -47,6 +50,18 @@ namespace NiceApp.Services.VehicleServices
 
 
             return mData;
+        }
+        public IEnumerable<string> GetAllStation()
+        {
+            var result = (from v in _dbContext.Stations
+                          select new Station
+                          {
+                              StationName = v.StationName
+                          }).AsEnumerable();
+
+            var asd = _dbContext.Stations
+                .Select(a=>a.StationName); 
+            return asd;
         }
         public async Task AddVehicleAsync(VehicleDTO vehicle)
         {
@@ -210,7 +225,7 @@ namespace NiceApp.Services.VehicleServices
         }
         private async Task<List<string>> SaveImages(IFormFileCollection files, Vehicle vehicle)
         {
-
+            Guid foldername = new Guid();
             string uploadFolder = Path.Combine("uploads", $"{vehicle.VehicleName}_{vehicle.Id}");
             string contentPath = Path.Combine(_webHostEnvironment.WebRootPath, uploadFolder);
 
@@ -225,7 +240,10 @@ namespace NiceApp.Services.VehicleServices
             {
                 if (file != null)
                 {
+                    Guid filename = new Guid();
                     var InputFileName = Path.GetFileName(file.FileName);
+
+
 
                     // File paths that will be saved to the database.
                     filePaths.Add(Path.Combine(uploadFolder, InputFileName));
@@ -237,11 +255,45 @@ namespace NiceApp.Services.VehicleServices
                     {
 
                         await file.CopyToAsync(fileStream);
+                       
+
                     }
                 }
             }
 
             return filePaths;
+        }
+        public static void Compress(Bitmap srcBitMap, string destFile, long level)
+        {
+            Stream s = new FileStream(destFile, FileMode.Create); //create FileStream,this will finally be used to create the new image 
+            Compress(srcBitMap, s, level);  //main progress to compress image
+            s.Close();
+        }
+
+        private static ImageCodecInfo GetEncoderInfo(String mimeType)
+        {
+            int j;
+            ImageCodecInfo[] encoders;
+            encoders = ImageCodecInfo.GetImageEncoders();
+            for (j = 0; j < encoders.Length; ++j)
+            {
+                if (encoders[j].MimeType == mimeType)
+                    return encoders[j];
+            }
+            return null;
+        }
+        private static void Compress(Bitmap srcBitmap, Stream destStream, long level)
+        {
+            ImageCodecInfo myImageCodecInfo;
+            Encoder myEncoder;
+            EncoderParameter myEncoderParameter;
+            EncoderParameters myEncoderParameters;
+            myImageCodecInfo = GetEncoderInfo("image/jpeg");
+            myEncoder = Encoder.Quality;
+            myEncoderParameters = new EncoderParameters(1);
+            myEncoderParameter = new EncoderParameter(myEncoder, level);
+            myEncoderParameters.Param[0] = myEncoderParameter;
+            srcBitmap.Save(destStream, myImageCodecInfo, myEncoderParameters);
         }
     }
 }

@@ -19,5 +19,6 @@ namespace NiceApp.Data
         public DbSet<VehicleImage> VehicleImages { get; set; }
         public DbSet<Station> Stations { get; set; }
         public DbSet<RentVehicle> RentVehicles { get; set; }
+        public DbSet<Images> Images { get; set; }
     }
 }

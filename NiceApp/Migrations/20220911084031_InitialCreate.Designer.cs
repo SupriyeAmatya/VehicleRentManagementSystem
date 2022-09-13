@@ -12,8 +12,8 @@ using NiceApp.Data;
 namespace NiceApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220905070709_AddVehiclesandUsers")]
-    partial class AddVehiclesandUsers
+    [Migration("20220911084031_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

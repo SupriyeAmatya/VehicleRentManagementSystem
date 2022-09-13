@@ -6,6 +6,7 @@ using NiceApp.CustomEmailConfirmationTokenProvider;
 using NiceApp.Data;
 using NiceApp.Models.DataModel;
 using NiceApp.Services.EmailServices;
+using NiceApp.Services.UserhomeService;
 using NiceApp.Services.VehicleServices;
 using System.Configuration;
 
@@ -54,6 +55,7 @@ builder.Services.AddTransient<CustomEmailConfirmationTokenProvider<AppUser>>();
 
 builder.Services.AddTransient<IEmailSenderServices, EmailSenderServices>();
 builder.Services.AddTransient<IVehicleService, VehicleService>();
+builder.Services.AddTransient<IUserhomeService, UserhomeService>();
 builder.Services.AddMailKit(config =>
 {
     var options = new MailKitOptions();
@@ -94,6 +96,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Vehicle}/{action=Index}/{id?}");
+    pattern: "{controller=Userhome}/{action=Index}/{id?}");
 
 app.Run();
