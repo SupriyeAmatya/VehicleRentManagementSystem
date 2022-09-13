@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using NiceApp.DTO;
 
 namespace NiceApp.Models.DTO
 {

@@ -1,4 +1,5 @@
-﻿using NiceApp.Models.DataModel;
+﻿using NiceApp.DTO;
+using NiceApp.Models.DataModel;
 using NiceApp.Models.DTO;
 
 namespace NiceApp.Services.VehicleServices
@@ -11,6 +12,6 @@ namespace NiceApp.Services.VehicleServices
         void DeleteVehicle(int userId);
         Vehicle GetVehicleById(int userId);
         void UpdateVehicle(Vehicle vehicle, object oldname);
-        IEnumerable<string> GetAllStation();
+        IEnumerable<StationDto> GetAllStation();
     }
 }

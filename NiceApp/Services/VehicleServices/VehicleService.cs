@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using NiceApp.Data;
+using NiceApp.DTO;
 using NiceApp.Models.DataModel;
 using NiceApp.Models.DTO;
 using SkiaSharp;
@@ -51,7 +52,7 @@ namespace NiceApp.Services.VehicleServices
 
             return mData;
         }
-        public IEnumerable<string> GetAllStation()
+        public IEnumerable<StationDto> GetAllStation()
         {
             var result = (from v in _dbContext.Stations
                           select new Station
@@ -60,7 +61,10 @@ namespace NiceApp.Services.VehicleServices
                           }).AsEnumerable();
 
             var asd = _dbContext.Stations
-                .Select(a=>a.StationName); 
+                .Select(s => new StationDto{
+                    StationId =  s.Id,
+                    StationName = s.StationName
+                }); 
             return asd;
         }
         public async Task AddVehicleAsync(VehicleDTO vehicle)
@@ -109,10 +113,6 @@ namespace NiceApp.Services.VehicleServices
             {
                 Console.WriteLine(ee);
             }
-
-
-
-
         }
 
 

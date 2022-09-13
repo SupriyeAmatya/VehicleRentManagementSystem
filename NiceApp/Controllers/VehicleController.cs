@@ -23,7 +23,7 @@ namespace NiceApp.Controllers
 
             var users = _vehicleService.GetVehicle();
 
-            
+
 
             return View(users);
 
@@ -31,7 +31,10 @@ namespace NiceApp.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.AllVehiclesListStation = new SelectList(_vehicleService.GetAllStation());
+
+            var mStationList = _vehicleService.GetAllStation();
+
+            ViewBag.AllVehiclesListStation = mStationList.ToList();
             return View(new VehicleDTO());
         }
         [HttpPost]
@@ -42,7 +45,7 @@ namespace NiceApp.Controllers
                 if (ModelState.IsValid)
                 {
                     ViewBag.AllVehiclesListStation = new SelectList(_vehicleService.GetAllStation());
-                 
+
                     await _vehicleService.AddVehicleAsync(person);
                     return RedirectToAction("Index");
                 }
@@ -74,7 +77,7 @@ namespace NiceApp.Controllers
             {
                 Vehicle user = _vehicleService.GetVehicleById(id);
                 _vehicleService.DeleteVehicle(id);
-                return RedirectToAction("Index","Vehicle");
+                return RedirectToAction("Index", "Vehicle");
             }
             catch (Exception ex)
             {
@@ -101,7 +104,7 @@ namespace NiceApp.Controllers
                 {
                     var oldname = TempData["Oldname"];
                     _vehicleService.UpdateVehicle(Vehicle, oldname);
-                    return RedirectToAction("Index","Vehicle");
+                    return RedirectToAction("Index", "Vehicle");
                 }
             }
             catch (Exception ex)
